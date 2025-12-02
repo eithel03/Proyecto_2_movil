@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Proyecto2_Movil.Models
+namespace Proyecto_2_Movil.Models   // ← CORRECTO, con guion bajo
 {
-    internal class Jugador
+    public class Jugador           // ← CORRECTO, debe ser PUBLIC
     {
-        public string Nombre { get; set; }
+        public string Nombre { get; set; } = string.Empty;
         public int PartidasGanadas { get; set; }
         public int PartidasPerdidas { get; set; }
     }

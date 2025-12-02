@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Proyecto2_Movil.ViewModels
+namespace Proyecto_2_Movil.Views
 {
-    internal class SeleccionRazaViewModel
+    public class SeleccionRazaViewModel
     {
     }
 }

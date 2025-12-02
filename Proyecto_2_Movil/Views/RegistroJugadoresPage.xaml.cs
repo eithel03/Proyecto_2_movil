@@ -1,10 +1,15 @@
-namespace Proyecto_2_Movil.Views
+using Proyecto_2_Movil.Services;
+using Proyecto_2_Movil.ViewModels;
+
+namespace Proyecto_2_Movil.Views;
+
+public partial class RegistroJugadoresPage : ContentPage
 {
-    public partial class RegistroJugadoresPage : ContentPage
+    public RegistroJugadoresPage()
     {
-        public RegistroJugadoresPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+
+        var persistencia = new PersistenciaService();
+        BindingContext = new RegistroJugadoresViewModel(persistencia);
     }
 }
