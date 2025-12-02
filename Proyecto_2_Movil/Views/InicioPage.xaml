@@ -29,7 +29,7 @@
 
 
          <Label Text="Warriors EITHARJAVAL"
-         FontSize="48"
+         FontSize="49"
          FontAttributes="Bold"
          TextColor="#ffffff"
          HorizontalOptions="Center"

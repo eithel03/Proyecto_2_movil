@@ -18,7 +18,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Proyecto_2_Movil")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+7e790fc5db23c8ce801efe38e9e6a7d753c338da")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+ab1f4141b89ad36359564a4f4a3df60f0d251be5")]
 [assembly: System.Reflection.AssemblyProductAttribute("Proyecto_2_Movil")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Proyecto_2_Movil")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
