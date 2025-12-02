@@ -1,9 +1,10 @@
-namespace Proyecto2_Movil.Views;
-
-public partial class NewPage1 : ContentPage
+namespace Proyecto_2_Movil.Views
 {
-	public NewPage1()
-	{
-		InitializeComponent();
-	}
+    public partial class RegistroJugadoresPage : ContentPage
+    {
+        public RegistroJugadoresPage()
+        {
+            InitializeComponent();
+        }
+    }
 }

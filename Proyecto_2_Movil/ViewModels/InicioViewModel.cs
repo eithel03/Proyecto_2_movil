@@ -1,12 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows.Input;
+using Proyecto_2_Movil.Views;
 
-namespace Proyecto2_Movil.ViewModels
+namespace Proyecto_2_Movil.ViewModels
 {
-    internal class InicioViewModel
+    public partial class InicioViewModel : BaseViewModel
     {
+        public ICommand IniciarCommand { get; }
+        public ICommand EstadisticasCommand { get; }
+
+        public InicioViewModel()
+        {
+            IniciarCommand = new Command(IrARegistro);
+            EstadisticasCommand = new Command(IrAEstadisticas);
+        }
+
+        private async void IrARegistro()
+        {
+            await Shell.Current.GoToAsync(nameof(RegistroJugadoresPage));
+        }
+
+        private async void IrAEstadisticas()
+        {
+            await Shell.Current.GoToAsync(nameof(ResumenPartidaPage));
+        }
     }
 }

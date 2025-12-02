@@ -1,0 +1,1 @@
+C:\Movil\Proyecto_2_movil\Proyecto_2_Movil\Proyecto_2_Movil.csproj;x64

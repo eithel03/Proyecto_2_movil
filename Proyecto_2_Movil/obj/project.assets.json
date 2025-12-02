@@ -33195,24 +33195,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\chava\\.nuget\\packages\\": {},
+    "C:\\Users\\Usuario\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\chava\\Downloads\\Proyecto_2_Movil\\Proyecto_2_Movil\\Proyecto_2_Movil.csproj",
+      "projectUniqueName": "C:\\Movil\\Proyecto_2_movil\\Proyecto_2_Movil\\Proyecto_2_Movil.csproj",
       "projectName": "Proyecto_2_Movil",
-      "projectPath": "C:\\Users\\chava\\Downloads\\Proyecto_2_Movil\\Proyecto_2_Movil\\Proyecto_2_Movil.csproj",
-      "packagesPath": "C:\\Users\\chava\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\chava\\Downloads\\Proyecto_2_Movil\\Proyecto_2_Movil\\obj\\",
+      "projectPath": "C:\\Movil\\Proyecto_2_movil\\Proyecto_2_Movil\\Proyecto_2_Movil.csproj",
+      "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
+      "outputPath": "C:\\Movil\\Proyecto_2_movil\\Proyecto_2_Movil\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\chava\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

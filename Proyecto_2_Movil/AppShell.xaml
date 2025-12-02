@@ -3,13 +3,31 @@
     x:Class="Proyecto_2_Movil.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:Proyecto_2_Movil"
-    Shell.FlyoutBehavior="Disabled"
-    Title="Proyecto_2_Movil">
+    xmlns:views="clr-namespace:Proyecto_2_Movil.Views"
+    Shell.FlyoutBehavior="Disabled">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Route="InicioPage"
+        ContentTemplate="{DataTemplate views:InicioPage}" />
+
+    <ShellContent
+        Route="RegistroJugadoresPage"
+        ContentTemplate="{DataTemplate views:RegistroJugadoresPage}" />
+
+    <ShellContent
+        Route="SeleccionRazaPage"
+        ContentTemplate="{DataTemplate views:SeleccionRazaPage}" />
+
+    <ShellContent
+        Route="SeleccionArmaPage"
+        ContentTemplate="{DataTemplate views:SeleccionArmaPage}" />
+
+    <ShellContent
+        Route="CombatePage"
+        ContentTemplate="{DataTemplate views:CombatePage}" />
+
+    <ShellContent
+        Route="ResumenPartidaPage"
+        ContentTemplate="{DataTemplate views:ResumenPartidaPage}" />
 
 </Shell>
