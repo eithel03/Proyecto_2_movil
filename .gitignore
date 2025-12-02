@@ -1,0 +1,62 @@
+# Build folders
+bin/
+obj/
+out/
+
+# Visual Studio folders
+.vs/
+*.user
+*.userosscache
+*.suo
+*.cache
+*.db
+
+# VS Code
+.vscode/
+
+# Runtime artifacts
+*.dll
+*.mdb
+*.exe
+*.pdb
+
+# MAUI specific
+**/Resources/Raw/**/*.*
+**/Resources/**/*.intermediate
+**/Resources/**/*.resfiles
+**/Resources/**/*.ref
+**/Resources/**/*.refint
+
+# Generated files
+*.g.cs
+*.g.i.cs
+*.designer.cs
+*.EditorConfig.editorconfig
+**/ref/
+**/refint/
+
+# Platform specific generated files
+*.apk
+*.aab
+*.ipa
+*.app
+
+# NuGet
+packages/
+*.nupkg
+
+# Backup
+*.bak
+*.tmp
+
+# Logs
+*.log
+
+# JetBrains Rider
+.idea/
+
+# XCode
+*.xcworkspace
+*.xcuserstate
+*.xcuserdata/
+*.xcodeproj
