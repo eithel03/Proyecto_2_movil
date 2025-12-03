@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Proyecto_2_Movil.Models;
 using Proyecto_2_Movil.Services;
+using Proyecto_2_Movil.Views;
+
 
 namespace Proyecto_2_Movil.ViewModels
 {
@@ -49,7 +51,8 @@ namespace Proyecto_2_Movil.ViewModels
 
             if (_servicio.TodosTienenRaza())
             {
-                await Shell.Current.GoToAsync("SeleccionArmaPage");
+                await Shell.Current.GoToAsync(nameof(SeleccionArmaPage));
+
             }
             else
             {

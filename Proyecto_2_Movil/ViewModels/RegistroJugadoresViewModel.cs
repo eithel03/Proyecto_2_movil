@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Proyecto_2_Movil.Services;
 using Proyecto_2_Movil.Models;
+using Proyecto_2_Movil.Views;
+
 
 namespace Proyecto_2_Movil.ViewModels
 {
@@ -72,7 +74,8 @@ namespace Proyecto_2_Movil.ViewModels
             }
 
             _servicio.InicializarJugadores(n1, n2);
-            await Shell.Current.GoToAsync("SeleccionRazaPage");
+            await Shell.Current.GoToAsync(nameof(SeleccionRazaPage));
+
         }
 
         private void MostrarError(string msg)
