@@ -1,10 +1,15 @@
-﻿namespace Proyecto_2_Movil
+﻿using Proyecto_2_Movil.Views;
+
+namespace Proyecto_2_Movil
+
 {
     public partial class AppShell : Shell
     {
         public AppShell()
         {
             InitializeComponent();
+            Routing.RegisterRoute(nameof(RegistroJugadoresPage), typeof(RegistroJugadoresPage));
+            Routing.RegisterRoute(nameof(SeleccionRazaPage), typeof(SeleccionRazaPage));
         }
     }
 }

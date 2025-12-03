@@ -1,18 +1,22 @@
-﻿using System.ComponentModel;
+﻿// ViewModels/BaseViewModel.cs
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Proyecto_2_Movil.ViewModels
 {
     public partial class BaseViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        private bool _isBusy;
+        public bool IsBusy
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
         }
 
-        protected bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string propertyName = "")
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected bool SetProperty<T>(ref T backingStore, T value,
+            [CallerMemberName] string propertyName = "")
         {
             if (EqualityComparer<T>.Default.Equals(backingStore, value))
                 return false;
@@ -20,6 +24,11 @@ namespace Proyecto_2_Movil.ViewModels
             backingStore = value;
             OnPropertyChanged(propertyName);
             return true;
+        }
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

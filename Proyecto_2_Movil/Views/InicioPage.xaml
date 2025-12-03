@@ -28,7 +28,7 @@
                      HorizontalOptions="Center">
 
 
-         <Label Text="Warriors EITHARJAVAL"
+            <Label Text="Warriors EITHARJAVAL"
          FontSize="49"
          FontAttributes="Bold"
          TextColor="#ffffff"
