@@ -1,4 +1,5 @@
-﻿using System;
+﻿// ViewModels/RegistroJugadoresViewModel.cs
+using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Proyecto_2_Movil.Services;
@@ -6,35 +7,35 @@ using Proyecto_2_Movil.Models;
 
 namespace Proyecto_2_Movil.ViewModels
 {
-    public class RegistroJugadoresViewModel : BaseViewModel
+    public partial class RegistroJugadoresViewModel : BaseViewModel
     {
-        private readonly PersistenciaService _persistenciaService;
+        private readonly PersistenciaService _servicio;
 
-        public RegistroJugadoresViewModel(PersistenciaService persistenciaService)
+        public RegistroJugadoresViewModel(PersistenciaService servicio)
         {
-            _persistenciaService = persistenciaService;
+            _servicio = servicio;
             ContinuarCommand = new Command(async () => await ContinuarAsync());
         }
 
-        private string _nombreJugador1 = string.Empty;
+        private string _nombre1 = "";
         public string NombreJugador1
         {
-            get => _nombreJugador1;
-            set => SetProperty(ref _nombreJugador1, value);
+            get => _nombre1;
+            set => SetProperty(ref _nombre1, value);
         }
 
-        private string _nombreJugador2 = string.Empty;
+        private string _nombre2 = "";
         public string NombreJugador2
         {
-            get => _nombreJugador2;
-            set => SetProperty(ref _nombreJugador2, value);
+            get => _nombre2;
+            set => SetProperty(ref _nombre2, value);
         }
 
-        private string _mensajeError = string.Empty;
+        private string _error = "";
         public string MensajeError
         {
-            get => _mensajeError;
-            set => SetProperty(ref _mensajeError, value);
+            get => _error;
+            set => SetProperty(ref _error, value);
         }
 
         private bool _hayError;
@@ -49,44 +50,34 @@ namespace Proyecto_2_Movil.ViewModels
         private async Task ContinuarAsync()
         {
             HayError = false;
-            MensajeError = string.Empty;
+            MensajeError = "";
 
-            var j1 = NombreJugador1?.Trim();
-            var j2 = NombreJugador2?.Trim();
+            var n1 = NombreJugador1?.Trim();
+            var n2 = NombreJugador2?.Trim();
 
-            if (string.IsNullOrWhiteSpace(j1) || string.IsNullOrWhiteSpace(j2))
+            if (string.IsNullOrWhiteSpace(n1) || string.IsNullOrWhiteSpace(n2))
             {
                 MostrarError("Ambos nombres son obligatorios.");
                 return;
             }
-
-            if (j1.Length < 3 || j2.Length < 3)
+            if (n1.Length < 3 || n2.Length < 3)
             {
-                MostrarError("Cada nombre debe tener al menos 3 caracteres.");
+                MostrarError("Mínimo 3 caracteres por nombre.");
+                return;
+            }
+            if (string.Equals(n1, n2, StringComparison.OrdinalIgnoreCase))
+            {
+                MostrarError("Los nombres deben ser distintos.");
                 return;
             }
 
-            if (j1.Equals(j2, StringComparison.OrdinalIgnoreCase))
-            {
-                MostrarError("Los nombres de los jugadores deben ser distintos.");
-                return;
-            }
-
-            // Crear jugadores
-            var jugador1 = new Jugador { Nombre = j1 };
-            var jugador2 = new Jugador { Nombre = j2 };
-
-            // Guardar en el servicio
-            await _persistenciaService.GuardarJugadoresAsync(jugador1, jugador2);
-
-            // Navegar a la siguiente pantalla (Selección de Raza)
+            _servicio.InicializarJugadores(n1, n2);
             await Shell.Current.GoToAsync("SeleccionRazaPage");
-
         }
 
-        private void MostrarError(string mensaje)
+        private void MostrarError(string msg)
         {
-            MensajeError = mensaje;
+            MensajeError = msg;
             HayError = true;
         }
     }

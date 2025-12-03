@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿// MauiProgram.cs (actualizado)
+using Microsoft.Extensions.Logging;
+using Proyecto_2_Movil.Services;
+using Proyecto_2_Movil.ViewModels;
 
 namespace Proyecto_2_Movil
 {
@@ -15,8 +18,12 @@ namespace Proyecto_2_Movil
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            // ✅ Registrar servicios y VMs
+            builder.Services.AddSingleton<PersistenciaService>();
+            builder.Services.AddTransient<SeleccionRazaViewModel>();
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
