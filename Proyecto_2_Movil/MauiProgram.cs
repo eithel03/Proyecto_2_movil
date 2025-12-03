@@ -1,5 +1,4 @@
-﻿// MauiProgram.cs (actualizado)
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Proyecto_2_Movil.Services;
 using Proyecto_2_Movil.ViewModels;
 

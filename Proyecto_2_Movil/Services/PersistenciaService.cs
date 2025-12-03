@@ -1,7 +1,5 @@
-﻿using System.Threading.Tasks;
-// Services/PersistenciaService.cs
+﻿using Proyecto_2_Movil.Models;
 using System.Collections.Generic;
-using Proyecto_2_Movil.Models;
 
 namespace Proyecto_2_Movil.Services
 {
@@ -22,4 +20,3 @@ namespace Proyecto_2_Movil.Services
         public bool TodosTienenRaza() => Jugadores.All(j => j.Raza != null);
     }
 }
-

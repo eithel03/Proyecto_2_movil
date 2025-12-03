@@ -7,4 +7,3 @@ namespace Proyecto_2_Movil.Models
         public string Descripcion { get; set; } = "";
     }
 }
-

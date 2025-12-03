@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Proyecto_2_Movil.Services
-
+namespace Proyecto2_Movil.Services
 {
-    public class CombateService
+    internal class CombateService
     {
     }
 }

@@ -1,6 +1,4 @@
 ﻿// Models/Jugador.cs
-using Proyecto2_Movil.Models;
-
 namespace Proyecto_2_Movil.Models
 {
     public partial class Jugador
@@ -13,4 +11,3 @@ namespace Proyecto_2_Movil.Models
         public int Empates { get; set; }
     }
 }
-
