@@ -16,7 +16,7 @@
     <ShellContent Route="SeleccionRazaPage" />
     <ShellContent Route="SeleccionArmaPage" />
     <ShellContent Route="CombatePage" />
-    <ShellContent Route="ResumenPartidaPage" />
+    <ShellContent Route="ResumenPartidaPage" />
 
 </Shell>
     
