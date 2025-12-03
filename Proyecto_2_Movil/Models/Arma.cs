@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Proyecto2_Movil.Models
+namespace Proyecto_2_Movil.Models
 {
-    internal class Arma
+    public class Arma
     {
+        public string Nombre { get; set; } = "";
+        public string Descripcion { get; set; } = "";
+        public int AtaqueBase { get; set; }
     }
 }
+

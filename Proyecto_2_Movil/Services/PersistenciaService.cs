@@ -1,5 +1,6 @@
 ﻿using Proyecto_2_Movil.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Proyecto_2_Movil.Services
 {
@@ -17,6 +18,17 @@ namespace Proyecto_2_Movil.Services
         public Jugador? ObtenerJugadorSinRaza() =>
             Jugadores.FirstOrDefault(j => j.Raza == null);
 
-        public bool TodosTienenRaza() => Jugadores.All(j => j.Raza != null);
+        public bool TodosTienenRaza() =>
+            Jugadores.All(j => j.Raza != null);
+
+        // -------------------------
+        //  ARMAS
+        // -------------------------
+
+        public Jugador? ObtenerJugadorSinArma() =>
+            Jugadores.FirstOrDefault(j => j.Arma == null);
+
+        public bool TodosTienenArma() =>
+            Jugadores.All(j => j.Arma != null);
     }
 }
