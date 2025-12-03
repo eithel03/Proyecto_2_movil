@@ -6,28 +6,17 @@
     xmlns:views="clr-namespace:Proyecto_2_Movil.Views"
     Shell.FlyoutBehavior="Disabled">
 
+    <!-- Página inicial (única ShellContent visible al inicio) -->
     <ShellContent
         Route="InicioPage"
         ContentTemplate="{DataTemplate views:InicioPage}" />
 
-    <ShellContent
-        Route="RegistroJugadoresPage"
-        ContentTemplate="{DataTemplate views:RegistroJugadoresPage}" />
-
-    <ShellContent
-        Route="SeleccionRazaPage"
-        ContentTemplate="{DataTemplate views:SeleccionRazaPage}" />
-
-    <ShellContent
-        Route="SeleccionArmaPage"
-        ContentTemplate="{DataTemplate views:SeleccionArmaPage}" />
-
-    <ShellContent
-        Route="CombatePage"
-        ContentTemplate="{DataTemplate views:CombatePage}" />
-
-    <ShellContent
-        Route="ResumenPartidaPage"
-        ContentTemplate="{DataTemplate views:ResumenPartidaPage}" />
+    <!-- Rutas registradas para navegación dinámica -->
+    <ShellContent Route="RegistroJugadoresPage" />
+    <ShellContent Route="SeleccionRazaPage" />
+    <ShellContent Route="SeleccionArmaPage" />
+    <ShellContent Route="CombatePage" />
+    <ShellContent Route="ResumenPartidaPage" />
 
 </Shell>
+    
