@@ -1,5 +1,5 @@
-﻿// Models/Jugador.cs
-using Proyecto2_Movil.Models;
+﻿// Models/Jugador.cs — versión limpia y única
+using Proyecto_2_Movil.Models;
 
 namespace Proyecto_2_Movil.Models
 {
