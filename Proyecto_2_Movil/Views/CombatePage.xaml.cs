@@ -1,3 +1,4 @@
+using Proyecto_2_Movil.ViewModels;
 namespace Proyecto_2_Movil.Views
 {
     public partial class CombatePage : ContentPage
@@ -5,6 +6,7 @@ namespace Proyecto_2_Movil.Views
         public CombatePage()
         {
             InitializeComponent();
+                BindingContext = new CombateViewModel();
         }
     }
 }

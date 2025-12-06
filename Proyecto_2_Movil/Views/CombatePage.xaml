@@ -1,12 +1,45 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Proyecto_2_Movil.ViewModels"
              x:Class="Proyecto_2_Movil.Views.CombatePage"
+             x:DataType="vm:CombateViewModel"
              Title="Combate">
-    <VerticalStackLayout>
-        <Label 
-            Text="Pantalla de Combate"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+
+    <VerticalStackLayout Padding="20" Spacing="16">
+
+        <Label Text="{Binding TurnoTexto}"
+               FontSize="20"
+               HorizontalOptions="Center" />
+
+        <Grid ColumnDefinitions="*,*">
+            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                <Label Text="{Binding NombreJ1}" FontAttributes="Bold" />
+                <Label Text="{Binding VidaJ1, StringFormat='Vida: {0}'}" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                <Label Text="{Binding NombreJ2}" FontAttributes="Bold" HorizontalOptions="End" />
+                <Label Text="{Binding VidaJ2, StringFormat='Vida: {0}'}" HorizontalOptions="End" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <Label Text="{Binding Distancia, StringFormat='Distancia: {0}'}"
+               HorizontalOptions="Center" />
+
+        <Label Text="{Binding Mensaje}"
+               HorizontalOptions="Center"
+               HorizontalTextAlignment="Center" />
+
+        <Grid ColumnDefinitions="*,*">
+            <Button Text="Avanzar" Command="{Binding AvanzarCommand}" Grid.Column="0" />
+            <Button Text="Retroceder" Command="{Binding RetrocederCommand}" Grid.Column="1" />
+        </Grid>
+
+        <Grid ColumnDefinitions="*,*">
+            <Button Text="Atacar" Command="{Binding AtacarCommand}" Grid.Column="0" />
+            <Button Text="Sanar" Command="{Binding SanarCommand}" Grid.Column="1" />
+        </Grid>
+
     </VerticalStackLayout>
 </ContentPage>
