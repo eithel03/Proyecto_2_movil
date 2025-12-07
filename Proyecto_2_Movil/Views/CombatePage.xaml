@@ -4,7 +4,15 @@
              xmlns:vm="clr-namespace:Proyecto_2_Movil.ViewModels"
              x:Class="Proyecto_2_Movil.Views.CombatePage"
              x:DataType="vm:CombateViewModel"
+             xmlns:conv="clr-namespace:Proyecto_2_Movil.Converters"
              Title="Combate">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:RazaToImagenConverter x:Key="RazaToImagenConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
 
     <VerticalStackLayout Padding="20" Spacing="16">
 
@@ -23,6 +31,22 @@
                 <Label Text="{Binding VidaJ2, StringFormat='Vida: {0}'}" HorizontalOptions="End" />
             </VerticalStackLayout>
         </Grid>
+
+        <Grid ColumnDefinitions="*,*">
+
+            <Image Grid.Column="0"
+           Source="{Binding Jugador1.Raza.Nombre, Converter={StaticResource RazaToImagenConverter}}"
+           HeightRequest="150"
+           Aspect="AspectFit" />
+
+            <Image Grid.Column="1"
+           Source="{Binding Jugador2.Raza.Nombre, Converter={StaticResource RazaToImagenConverter}}"
+           HeightRequest="150"
+           Aspect="AspectFit"
+           HorizontalOptions="End" />
+
+        </Grid>
+
 
         <Label Text="{Binding Distancia, StringFormat='Distancia: {0}'}"
                HorizontalOptions="Center" />
