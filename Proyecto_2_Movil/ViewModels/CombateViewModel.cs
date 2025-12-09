@@ -35,7 +35,7 @@ namespace Proyecto_2_Movil.ViewModels
             VidaJ1 = Jugador1.VidaActual;
             VidaJ2 = Jugador2.VidaActual;
 
-            Distancia = 2; // empiezan alejados
+            Distancia = 2;
             CombateTerminado = false;
             Ganador = string.Empty;
 
@@ -115,6 +115,15 @@ namespace Proyecto_2_Movil.ViewModels
             set => SetProperty(ref _mensaje, value);
         }
 
+        // -------- PROPIEDADES PARA NUEVA UI --------
+
+        public double PorcentajeVidaJ1 => (double)VidaJ1 / ObtenerVidaMaxima(Jugador1);
+        public double PorcentajeVidaJ2 => (double)VidaJ2 / ObtenerVidaMaxima(Jugador2);
+
+        public bool EsTurnoJ1 => Turno == TurnoJugador.Jugador1;
+        public bool EsTurnoJ2 => Turno == TurnoJugador.Jugador2;
+
+        // Helpers internos
         private string NombreTurnoActual =>
             Turno == TurnoJugador.Jugador1 ? Jugador1.Nombre : Jugador2.Nombre;
 
@@ -135,15 +144,6 @@ namespace Proyecto_2_Movil.ViewModels
             return texto.IndexOf(palabra, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
-        private bool ArmaActualEsArco =>
-            ContieneIgnoreCase(JugadorEnTurno.Arma?.Nombre, "Arco");
-
-        private bool ArmaActualEsHacha =>
-            ContieneIgnoreCase(JugadorEnTurno.Arma?.Nombre, "Hacha");
-
-        private bool ArmaActualEsDagas =>
-            ContieneIgnoreCase(JugadorEnTurno.Arma?.Nombre, "Daga");
-
         // -------- Vida y curación por raza --------
 
         private bool EsHumano(Jugador j) => ContieneIgnoreCase(j.Raza?.Nombre, "Humano");
@@ -155,7 +155,7 @@ namespace Proyecto_2_Movil.ViewModels
         private int CalcularVidaInicial(Jugador j)
         {
             if (EsElfoAgua(j))
-                return 115; // +15 vida inicial
+                return 115;
             return 100;
         }
 
@@ -168,12 +168,11 @@ namespace Proyecto_2_Movil.ViewModels
 
         private int CalcularCuracion(Jugador j)
         {
-            // Basado en las descripciones de raza (porcentajes aproximados)
-            if (EsHumano(j)) return _random.Next(35, 51);  // ~45%
-            if (EsElfo(j)) return _random.Next(55, 71);  // ~65%
-            if (EsElfoAgua(j)) return _random.Next(75, 91);  // 75–90%
-            if (EsOrco(j)) return _random.Next(30, 46);  // poción
-            if (EsBestia(j)) return _random.Next(40, 61);  // dormir (50%)
+            if (EsHumano(j)) return _random.Next(35, 51);
+            if (EsElfo(j)) return _random.Next(55, 71);
+            if (EsElfoAgua(j)) return _random.Next(75, 91);
+            if (EsOrco(j)) return _random.Next(30, 46);
+            if (EsBestia(j)) return _random.Next(40, 61);
             return _random.Next(25, 41);
         }
 
@@ -193,13 +192,15 @@ namespace Proyecto_2_Movil.ViewModels
             if (Distancia > 0)
             {
                 Distancia--;
-                ActualizarEstado($"{NombreTurnoActual} avanza hacia {NombreTurnoOpuesto}.");
+                Mensaje = $"{NombreTurnoActual} avanza.";
                 CambiarTurno();
             }
             else
             {
-                Mensaje = "Ya están a distancia cuerpo a cuerpo.";
+                Mensaje = "Ya están cuerpo a cuerpo.";
             }
+
+            NotificarCambios();
         }
 
         private void Retroceder()
@@ -207,19 +208,19 @@ namespace Proyecto_2_Movil.ViewModels
             if (CombateTerminado) return;
 
             Distancia++;
-            ActualizarEstado($"{NombreTurnoActual} se aleja de {NombreTurnoOpuesto}.");
+            Mensaje = $"{NombreTurnoActual} retrocede.";
             CambiarTurno();
+            NotificarCambios();
         }
 
-        private bool EstaEnRangoDeAtaque()
+        private bool EstaEnRangoDeAtaque(Arma arma)
         {
-            if (ArmaActualEsArco)
-            {
-                // Arco: puede atacar a distancia 2, 1 o 0
-                return Distancia <= 2;
-            }
+            if (arma == null) return false;
 
-            // Espada, Hacha, Dagas: cuerpo a cuerpo
+            if (arma.EsDistancia)
+                return Distancia <= 2;
+
+            // Para armas cuerpo a cuerpo
             return Distancia == 0;
         }
 
@@ -227,64 +228,151 @@ namespace Proyecto_2_Movil.ViewModels
         {
             if (CombateTerminado) return;
 
-            if (!EstaEnRangoDeAtaque())
+            var arma = JugadorEnTurno.Arma;
+            if (arma == null)
             {
-                Mensaje = ArmaActualEsArco
-                    ? "Están demasiado lejos incluso para tu arco. Acércate un poco más."
-                    : "Están muy lejos. Debes avanzar para atacar cuerpo a cuerpo.";
+                Mensaje = "No tienes arma equipada.";
                 return;
             }
 
-            string armaTexto = JugadorEnTurno.Arma?.Nombre ?? "arma";
+            if (!EstaEnRangoDeAtaque(arma))
+            {
+                Mensaje = arma.EsDistancia
+                    ? "Necesitas acercarte un poco más para usar esa arma."
+                    : "Están demasiado lejos para atacar cuerpo a cuerpo.";
+                return;
+            }
 
-            if (ArmaActualEsHacha)
-            {
-                EjecutarAtaque("hacha", baseMin: 16, baseMax: 24, missChance: 0.25, critChance: 0.20, dobleGolpe: false);
-            }
-            else if (ArmaActualEsArco)
-            {
-                EjecutarAtaque("arco", baseMin: 12, baseMax: 20, missChance: 0.35, critChance: 0.35, dobleGolpe: false);
-            }
-            else if (ArmaActualEsDagas)
-            {
-                EjecutarAtaque("dagas", baseMin: 7, baseMax: 11, missChance: 0.10, critChance: 0.30, dobleGolpe: true);
-            }
-            else
-            {
-                // Espada o cualquier otra arma cuerpo a cuerpo
-                EjecutarAtaque("espada", baseMin: 10, baseMax: 16, missChance: 0.05, critChance: 0.15, dobleGolpe: false);
-            }
+            // Se delega a método que calcula según arma
+            EjecutarAtaqueConArma(arma);
+            NotificarCambios();
         }
 
-        private void EjecutarAtaque(string tipoArma, int baseMin, int baseMax, double missChance, double critChance, bool dobleGolpe)
+        private void EjecutarAtaqueConArma(Arma arma)
         {
-            if (CombateTerminado) return;
-
-            // ¿Falló todo el ataque?
-            if (_random.NextDouble() < missChance)
+            if (_random.NextDouble() < 0.02)
             {
-                Mensaje = $"{NombreTurnoActual} falló el ataque con {tipoArma}.";
-                CambiarTurno();
-                return;
+                // pequeña probabilidad de fallo global (opcional); mantén o quita
             }
 
-            int golpes = dobleGolpe ? 2 : 1;
+            // Decide baseMin/baseMax según arma
+            int danoGenerado = 0;
             int totalDano = 0;
-            int golpesCriticos = 0;
+            int criticos = 0;
+            int golpes = arma.Nombre.Contains("Dagas", StringComparison.OrdinalIgnoreCase) ? 2 : 1;
 
-            for (int i = 0; i < golpes; i++)
+            for (int g = 0; g < golpes; g++)
             {
-                int dano = _random.Next(baseMin, baseMax + 1);
-                bool critico = _random.NextDouble() < critChance;
+                int dano = 0;
 
-                if (critico)
+                // ********* Lógica por arma *********
+                if (arma.Nombre == "Escopeta")
+                {
+                    // daño 1-5 con pequeño extra aleatorio
+                    dano = _random.Next(1, 6) + _random.Next(0, 2); // 1-6
+                }
+                else if (arma.Nombre == "Rifle francotirador")
+                {
+                    if (Distancia == 2)
+                    {
+                        dano = _random.Next(10, 21); // 10-20 en distancia larga
+                    }
+                    else
+                    {
+                        dano = _random.Next(1, 6); // 1-5 en cercanía
+                    }
+                }
+                else if (arma.EsMagico && arma.Elemento != null)
+                {
+                    // Báculos: variar por elemento
+                    switch (arma.Elemento)
+                    {
+                        case "Fuego":
+                            dano = _random.Next(3, 9); // más daño porcentual
+                            break;
+                        case "Tierra":
+                            dano = _random.Next(2, 8); // ligero bono
+                            break;
+                        case "Aire":
+                            dano = _random.Next(1, 6); // daño base normal, posibilidad de evasión adicional manejada en evasión
+                            break;
+                        case "Agua":
+                            dano = _random.Next(1, 6); // daño estándar, vida y sanación superior cubiertos por raza
+                            break;
+                        default:
+                            dano = _random.Next(1, 6);
+                            break;
+                    }
+                }
+                else if (arma.Nombre == "Hacha")
+                {
+                    dano = _random.Next(1, 6);
+                }
+                else if (arma.Nombre == "Martillo")
+                {
+                    dano = _random.Next(2, 8);
+                }
+                else if (arma.Nombre == "Puños")
+                {
+                    // Bestia: daño muy alto y el atacante pierde vida
+                    dano = _random.Next(20, 31);
+                }
+                else if (arma.Nombre == "Espada")
+                {
+                    dano = _random.Next(10, 17);
+                }
+                else if (arma.Nombre == "Dagas")
+                {
+                    dano = _random.Next(7, 12);
+                }
+                else
+                {
+                    // fallback
+                    dano = arma.AtaqueBase > 0 ? arma.AtaqueBase : _random.Next(1, 8);
+                }
+
+                // Bonus por distancia definido en el arma
+                if (arma.BonusDistanciaPercent > 0 && arma.EsDistancia && Distancia == 2)
+                {
+                    dano = (int)Math.Round(dano * (1 + arma.BonusDistanciaPercent / 100.0));
+                }
+
+                // Calcular evasión del defensor
+                var defensor = JugadorRival;
+                double probEvasion = defensor?.ProbabilidadEvasion ?? 0.0;
+
+                // Si el defensor tiene elemento "Aire" como raza/arma noches adicionales ya asignadas en ProbabilidadEvasion
+                if (_random.NextDouble() < probEvasion)
+                {
+                    // Evadió el golpe (si hay doble golpe, el siguiente golpe aún puede intentar)
+                    Mensaje = $"¡{defensor?.Nombre} evadió el ataque!";
+                    continue;
+                }
+
+                // Chance de crítico (usamos una base simple)
+                double critChance = 0.15;
+                if (_random.NextDouble() < critChance)
                 {
                     dano = (int)Math.Round(dano * 1.5);
-                    golpesCriticos++;
+                    criticos++;
+                }
+
+                // Si es el arma Puños, atacante pierde vida
+                if (arma.Nombre == "Puños")
+                {
+                    if (Turno == TurnoJugador.Jugador1)
+                    {
+                        VidaJ1 = Math.Max(0, VidaJ1 - 10); // pierde 10 al atacar
+                    }
+                    else
+                    {
+                        VidaJ2 = Math.Max(0, VidaJ2 - 10);
+                    }
                 }
 
                 totalDano += dano;
 
+                // Aplicar daño
                 if (Turno == TurnoJugador.Jugador1)
                 {
                     VidaJ2 -= dano;
@@ -292,9 +380,17 @@ namespace Proyecto_2_Movil.ViewModels
                     {
                         VidaJ2 = 0;
                         SincronizarVidaConJugadores();
-                        Mensaje = $"{Jugador1.Nombre} atacó con {tipoArma} e hizo {totalDano} de daño (críticos: {golpesCriticos}) y ganó la partida.";
+                        Mensaje = $"{Jugador1.Nombre} atacó con {arma.Nombre} e hizo {totalDano} de daño (críticos: {criticos}) y ganó.";
                         FinalizarCombate(Jugador1.Nombre);
                         return;
+                    }
+                    else
+                    {
+                        // Aplicar sangrado si arma lo causa
+                        if (arma.CausaSangrado)
+                        {
+                            AplicarSangradoEnDefensor(Jugador2);
+                        }
                     }
                 }
                 else
@@ -304,48 +400,49 @@ namespace Proyecto_2_Movil.ViewModels
                     {
                         VidaJ1 = 0;
                         SincronizarVidaConJugadores();
-                        Mensaje = $"{Jugador2.Nombre} atacó con {tipoArma} e hizo {totalDano} de daño (críticos: {golpesCriticos}) y ganó la partida.";
+                        Mensaje = $"{Jugador2.Nombre} atacó con {arma.Nombre} e hizo {totalDano} de daño (críticos: {criticos}) y ganó.";
                         FinalizarCombate(Jugador2.Nombre);
                         return;
                     }
+                    else
+                    {
+                        if (arma.CausaSangrado)
+                        {
+                            AplicarSangradoEnDefensor(Jugador1);
+                        }
+                    }
                 }
-            }
+            } // fin ciclo golpes
 
-            SincronizarVidaConJugadores();
-
-            string detalleGolpes = dobleGolpe
-                ? $"{golpes} golpes, críticos: {golpesCriticos}"
-                : (golpesCriticos > 0 ? "¡Golpe crítico!" : "Golpe normal.");
-
-            Mensaje = $"{NombreTurnoActual} atacó con {tipoArma} e hizo {totalDano} de daño ({detalleGolpes}).";
-
+            Mensaje = $"{NombreTurnoActual} atacó con {arma.Nombre} e hizo {totalDano} de daño (críticos: {criticos}).";
             CambiarTurno();
+        }
+
+        private void AplicarSangradoEnDefensor(Jugador defensor)
+        {
+            defensor.TieneSangrado = true;
+            defensor.TurnosSangrado = 2;
+            defensor.DanioSangrado = _random.Next(5, 11); // 5-10
         }
 
         private void Sanar()
         {
             if (CombateTerminado) return;
 
-            var jugador = JugadorEnTurno;
-            int curacion = CalcularCuracion(jugador);
+            int curacion = CalcularCuracion(JugadorEnTurno);
 
             if (Turno == TurnoJugador.Jugador1)
             {
-                VidaJ1 += curacion;
-                int maxVida = ObtenerVidaMaxima(Jugador1);
-                if (VidaJ1 > maxVida) VidaJ1 = maxVida;
+                VidaJ1 = Math.Min(VidaJ1 + curacion, ObtenerVidaMaxima(Jugador1));
             }
             else
             {
-                VidaJ2 += curacion;
-                int maxVida = ObtenerVidaMaxima(Jugador2);
-                if (VidaJ2 > maxVida) VidaJ2 = maxVida;
+                VidaJ2 = Math.Min(VidaJ2 + curacion, ObtenerVidaMaxima(Jugador2));
             }
 
-            SincronizarVidaConJugadores();
-
-            Mensaje = $"{NombreTurnoActual} se curó {curacion} puntos de vida.";
+            Mensaje = $"{NombreTurnoActual} recuperó {curacion} de vida.";
             CambiarTurno();
+            NotificarCambios();
         }
 
         // -------- Helpers internos --------
@@ -359,6 +456,56 @@ namespace Proyecto_2_Movil.ViewModels
                 : TurnoJugador.Jugador1;
 
             TurnoTexto = $"Turno de {NombreTurnoActual}";
+
+            // Aplicar efectos al inicio del turno del jugador que ahora tiene el turno
+            AplicarEfectosPorTurno(JugadorEnTurno);
+
+            NotificarCambios();
+        }
+
+        private void AplicarEfectosPorTurno(Jugador jugadorEnTurno)
+        {
+            if (jugadorEnTurno == null) return;
+
+            // Sangrado
+            if (jugadorEnTurno.TieneSangrado && jugadorEnTurno.TurnosSangrado > 0)
+            {
+                int dmg = jugadorEnTurno.DanioSangrado;
+                if (jugadorEnTurno == Jugador1)
+                    VidaJ1 = Math.Max(0, VidaJ1 - dmg);
+                else
+                    VidaJ2 = Math.Max(0, VidaJ2 - dmg);
+
+                jugadorEnTurno.TurnosSangrado--;
+                Mensaje = $"{jugadorEnTurno.Nombre} sufre {dmg} de daño por sangrado. ({jugadorEnTurno.TurnosSangrado} turnos restantes)";
+
+                if (jugadorEnTurno.TurnosSangrado <= 0)
+                {
+                    jugadorEnTurno.TieneSangrado = false;
+                    jugadorEnTurno.DanioSangrado = 0;
+                }
+
+                // Verificar muerte por sangrado
+                if (VidaJ1 <= 0)
+                {
+                    VidaJ1 = 0;
+                    SincronizarVidaConJugadores();
+                    FinalizarCombate(Jugador2.Nombre);
+                    Mensaje += $" {Jugador2.Nombre} gana por muerte por sangrado.";
+                    return;
+                }
+
+                if (VidaJ2 <= 0)
+                {
+                    VidaJ2 = 0;
+                    SincronizarVidaConJugadores();
+                    FinalizarCombate(Jugador1.Nombre);
+                    Mensaje += $" {Jugador1.Nombre} gana por muerte por sangrado.";
+                    return;
+                }
+            }
+
+            SincronizarVidaConJugadores();
         }
 
         private void FinalizarCombate(string ganador)
@@ -374,14 +521,19 @@ namespace Proyecto_2_Movil.ViewModels
             Jugador2.VidaActual = VidaJ2;
         }
 
-        private void ActualizarEstado(string mensaje)
+        private void NotificarCambios()
         {
-            Mensaje = mensaje;
-
-            if (!CombateTerminado)
-                TurnoTexto = $"Turno de {NombreTurnoActual}";
-            else
-                TurnoTexto = $"Ganador: {Ganador}";
+            OnPropertyChanged(nameof(VidaJ1));
+            OnPropertyChanged(nameof(VidaJ2));
+            OnPropertyChanged(nameof(PorcentajeVidaJ1));
+            OnPropertyChanged(nameof(PorcentajeVidaJ2));
+            OnPropertyChanged(nameof(EsTurnoJ1));
+            OnPropertyChanged(nameof(EsTurnoJ2));
+            OnPropertyChanged(nameof(Distancia));
+            OnPropertyChanged(nameof(Turno));
+            OnPropertyChanged(nameof(TurnoTexto));
+            OnPropertyChanged(nameof(Mensaje));
         }
     }
 }
+

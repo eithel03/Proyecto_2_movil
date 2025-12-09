@@ -1,5 +1,4 @@
-﻿// Models/Jugador.cs — versión limpia y única
-using Proyecto_2_Movil.Models;
+﻿using Proyecto_2_Movil.Models;
 
 namespace Proyecto_2_Movil.Models
 {
@@ -12,5 +11,12 @@ namespace Proyecto_2_Movil.Models
         public int PartidasGanadas { get; set; }
         public int PartidasPerdidas { get; set; }
         public int Empates { get; set; }
+        public bool TieneSangrado { get; set; }
+        public int TurnosSangrado { get; set; }
+        public int DanioSangrado { get; set; }
+        public double ProbabilidadEvasion { get; set; }
+
     }
 }
+
+

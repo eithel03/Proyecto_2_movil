@@ -2,60 +2,95 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Proyecto_2_Movil.ViewModels"
+             xmlns:conv="clr-namespace:Proyecto_2_Movil.Converters"
              x:Class="Proyecto_2_Movil.Views.CombatePage"
              x:DataType="vm:CombateViewModel"
-             xmlns:conv="clr-namespace:Proyecto_2_Movil.Converters"
              Title="Combate">
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <conv:RazaToImagenConverter x:Key="RazaToImagenConverter" />
+            <conv:BoolToScaleConverter x:Key="BoolScale" />
+            <conv:BoolToOpacityInverseConverter x:Key="OpacityInv" />
+            <conv:VidaToColorConverter x:Key="VidaToColor" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
-
     <VerticalStackLayout Padding="20" Spacing="16">
 
+        <!-- Texto del turno -->
         <Label Text="{Binding TurnoTexto}"
-               FontSize="20"
+               FontSize="22"
+               FontAttributes="Bold"
                HorizontalOptions="Center" />
 
-        <Grid ColumnDefinitions="*,*">
-            <VerticalStackLayout Grid.Column="0" Spacing="4">
-                <Label Text="{Binding NombreJ1}" FontAttributes="Bold" />
-                <Label Text="{Binding VidaJ1, StringFormat='Vida: {0}'}" />
+        <!-- BLOQUE DE JUGADORES -->
+        <Grid ColumnDefinitions="*,*" Margin="0,10">
+
+            <!-- Jugador 1 -->
+            <VerticalStackLayout Grid.Column="0"
+                                 HorizontalOptions="Center"
+                                 Spacing="5">
+
+                <Label Text="{Binding NombreJ1}" 
+                       FontSize="18" 
+                       FontAttributes="Bold" />
+
+                <!-- Imagen dinámica -->
+                <Image Source="{Binding Jugador1.Raza.Nombre, Converter={StaticResource RazaToImagenConverter}}"
+                       HeightRequest="150"
+                       WidthRequest="150"
+                       Aspect="AspectFit"
+                       Scale="{Binding EsTurnoJ1, Converter={StaticResource BoolScale}}"
+                       Opacity="{Binding EsTurnoJ2, Converter={StaticResource OpacityInv}}" />
+
+                <!-- Barra de vida -->
+                <ProgressBar Progress="{Binding PorcentajeVidaJ1}"
+                             HeightRequest="12"
+                             ProgressColor="{Binding VidaJ1, Converter={StaticResource VidaToColor}}" />
+
+                <Label Text="{Binding VidaJ1, StringFormat='Vida: {0}'}"
+                       HorizontalOptions="Center" />
             </VerticalStackLayout>
 
-            <VerticalStackLayout Grid.Column="1" Spacing="4">
-                <Label Text="{Binding NombreJ2}" FontAttributes="Bold" HorizontalOptions="End" />
-                <Label Text="{Binding VidaJ2, StringFormat='Vida: {0}'}" HorizontalOptions="End" />
+            <!-- Jugador 2 -->
+            <VerticalStackLayout Grid.Column="1"
+                                 HorizontalOptions="Center"
+                                 Spacing="5">
+
+                <Label Text="{Binding NombreJ2}"
+                       FontSize="18"
+                       FontAttributes="Bold" />
+
+                <Image Source="{Binding Jugador2.Raza.Nombre, Converter={StaticResource RazaToImagenConverter}}"
+                       HeightRequest="150"
+                       WidthRequest="150"
+                       Aspect="AspectFit"
+                       Scale="{Binding EsTurnoJ2, Converter={StaticResource BoolScale}}"
+                       Opacity="{Binding EsTurnoJ1, Converter={StaticResource OpacityInv}}" />
+
+                <ProgressBar Progress="{Binding PorcentajeVidaJ2}"
+                             HeightRequest="12"
+                             ProgressColor="{Binding VidaJ2, Converter={StaticResource VidaToColor}}" />
+
+                <Label Text="{Binding VidaJ2, StringFormat='Vida: {0}'}"
+                       HorizontalOptions="Center" />
             </VerticalStackLayout>
-        </Grid>
-
-        <Grid ColumnDefinitions="*,*">
-
-            <Image Grid.Column="0"
-           Source="{Binding Jugador1.Raza.Nombre, Converter={StaticResource RazaToImagenConverter}}"
-           HeightRequest="150"
-           Aspect="AspectFit" />
-
-            <Image Grid.Column="1"
-           Source="{Binding Jugador2.Raza.Nombre, Converter={StaticResource RazaToImagenConverter}}"
-           HeightRequest="150"
-           Aspect="AspectFit"
-           HorizontalOptions="End" />
 
         </Grid>
 
-
+        <!-- Distancia -->
         <Label Text="{Binding Distancia, StringFormat='Distancia: {0}'}"
                HorizontalOptions="Center" />
 
+        <!-- Mensaje -->
         <Label Text="{Binding Mensaje}"
                HorizontalOptions="Center"
-               HorizontalTextAlignment="Center" />
+               HorizontalTextAlignment="Center"
+               FontSize="14" />
 
-        <Grid ColumnDefinitions="*,*">
+        <!-- Botones -->
+        <Grid ColumnDefinitions="*,*" Margin="0,10">
             <Button Text="Avanzar" Command="{Binding AvanzarCommand}" Grid.Column="0" />
             <Button Text="Retroceder" Command="{Binding RetrocederCommand}" Grid.Column="1" />
         </Grid>
@@ -67,3 +102,4 @@
 
     </VerticalStackLayout>
 </ContentPage>
+
