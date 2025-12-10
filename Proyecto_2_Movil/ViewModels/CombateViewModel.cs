@@ -508,12 +508,26 @@ namespace Proyecto_2_Movil.ViewModels
             SincronizarVidaConJugadores();
         }
 
-        private void FinalizarCombate(string ganador)
+        private void FinalizarCombate(string nombreGanador)
         {
             CombateTerminado = true;
-            Ganador = ganador;
-            TurnoTexto = $"Ganador: {ganador}";
+            Ganador = nombreGanador;
+            TurnoTexto = $"Ganador: {nombreGanador}";
+
+            // Determinar quién ganó y quién perdió
+            Jugador ganador = Jugador1;
+            Jugador perdedor = Jugador2;
+
+            if (nombreGanador == Jugador2.Nombre)
+            {
+                ganador = Jugador2;
+                perdedor = Jugador1;
+            }
+
+            // Guardar estadísticas + historial en segundo plano
+            _ = _servicio.RegistrarResultadoPartidaAsync(ganador, perdedor, esEmpate: false);
         }
+
 
         private void SincronizarVidaConJugadores()
         {

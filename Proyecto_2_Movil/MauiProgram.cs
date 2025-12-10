@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Proyecto_2_Movil.Services;
 using Proyecto_2_Movil.ViewModels;
+using Proyecto_2_Movil.Views;
 
 namespace Proyecto_2_Movil
 {
@@ -20,6 +21,8 @@ namespace Proyecto_2_Movil
             // ✅ Registrar servicios y VMs
             builder.Services.AddSingleton<PersistenciaService>();
             builder.Services.AddTransient<SeleccionRazaViewModel>();
+            builder.Services.AddTransient<EstadisticasPage>();
+            builder.Services.AddTransient<EstadisticasViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();

@@ -21,7 +21,7 @@ namespace Proyecto_2_Movil.ViewModels
 
         private async void IrAEstadisticas()
         {
-            await Shell.Current.GoToAsync(nameof(ResumenPartidaPage));
+            await Shell.Current.GoToAsync(nameof(EstadisticasPage));
         }
     }
 }
