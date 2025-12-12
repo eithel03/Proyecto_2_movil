@@ -48,7 +48,9 @@ namespace Proyecto_2_Movil.ViewModels
             AtacarCommand = new Command(Atacar);
             SanarCommand = new Command(Sanar);
             VerEstadisticasCommand = new Command(VerEstadisticas);
+            OtraPartidaCommand = new Command(OtraPartida);
         }
+
 
         // -------- Jugadores --------
 
@@ -184,6 +186,7 @@ namespace Proyecto_2_Movil.ViewModels
         public ICommand AtacarCommand { get; }
         public ICommand SanarCommand { get; }
         public ICommand VerEstadisticasCommand { get; }
+        public ICommand OtraPartidaCommand { get; }
 
 
         // -------- Acciones --------
@@ -547,6 +550,47 @@ namespace Proyecto_2_Movil.ViewModels
             await Shell.Current.GoToAsync("EstadisticasPage");
         }
 
+        private void OtraPartida()
+        {
+            if (!CombateTerminado)
+                return;
+
+            ReiniciarCombate();
+        }
+
+        private void ReiniciarCombate()
+        {
+            // Reset de estado de combate
+            CombateTerminado = false;
+            Ganador = string.Empty;
+
+            // Reset de sangrado / efectos si tu modelo los tiene
+            Jugador1.TieneSangrado = false;
+            Jugador1.TurnosSangrado = 0;
+            Jugador1.DanioSangrado = 0;
+
+            Jugador2.TieneSangrado = false;
+            Jugador2.TurnosSangrado = 0;
+            Jugador2.DanioSangrado = 0;
+
+            // Vida inicial de nuevo según raza
+            VidaJ1 = CalcularVidaInicial(Jugador1);
+            VidaJ2 = CalcularVidaInicial(Jugador2);
+
+            // Sincronizar con el modelo
+            SincronizarVidaConJugadores();
+
+            // Distancia inicial
+            Distancia = 2;
+
+            // Turno vuelve a jugador 1
+            Turno = TurnoJugador.Jugador1;
+            TurnoTexto = $"Turno de {NombreTurnoActual}";
+
+            Mensaje = "Nueva partida iniciada con los mismos personajes.";
+
+            NotificarCambios();
+        }
 
         private void NotificarCambios()
         {

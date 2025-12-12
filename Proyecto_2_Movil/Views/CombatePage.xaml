@@ -112,5 +112,16 @@
         HeightRequest="50" />
 
 
+        <!-- NUEVO BOTÓN: Otra partida -->
+        <Button Text="Otra partida"
+        Command="{Binding OtraPartidaCommand}"
+        IsVisible="{Binding CombateTerminado}"
+        Margin="0,20,0,0"
+        BackgroundColor="#6A4CFF"
+        TextColor="White"
+        CornerRadius="10"
+        HeightRequest="50" />
+
+
     </VerticalStackLayout>
 </ContentPage>
