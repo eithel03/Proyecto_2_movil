@@ -49,6 +49,7 @@ namespace Proyecto_2_Movil.ViewModels
             SanarCommand = new Command(Sanar);
             VerEstadisticasCommand = new Command(VerEstadisticas);
             OtraPartidaCommand = new Command(OtraPartida);
+            SalirCommand = new Command(Salir);
         }
 
 
@@ -187,6 +188,8 @@ namespace Proyecto_2_Movil.ViewModels
         public ICommand SanarCommand { get; }
         public ICommand VerEstadisticasCommand { get; }
         public ICommand OtraPartidaCommand { get; }
+        public ICommand SalirCommand { get; }   
+
 
 
         // -------- Acciones --------
@@ -430,6 +433,16 @@ namespace Proyecto_2_Movil.ViewModels
             defensor.TurnosSangrado = 2;
             defensor.DanioSangrado = _random.Next(5, 11); // 5-10
         }
+
+        private async void Salir()
+        {
+            if (!CombateTerminado)
+                return;
+
+            // Regresa a la primera pantalla del flujo
+            await Shell.Current.GoToAsync("//InicioPage");
+        }
+
 
         private void Sanar()
         {

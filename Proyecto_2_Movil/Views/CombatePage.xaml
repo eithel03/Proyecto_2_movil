@@ -25,7 +25,7 @@
                HorizontalOptions="Center" />
 
         <!-- BLOQUE DE JUGADORES -->
-        <Grid ColumnDefinitions="Auto , Auto" Margin="0,10">
+        <Grid ColumnDefinitions="*,*" Margin="0,10">
 
             <!-- Jugador 1 -->
             <VerticalStackLayout Grid.Column="0"
@@ -89,39 +89,74 @@
                HorizontalTextAlignment="Center"
                FontSize="14" />
 
-        <!-- Botones -->
-        <Grid ColumnDefinitions="Auto , Auto" Margin="0,10">
-            <Button Text="Avanzar" Command="{Binding AvanzarCommand}" Grid.Column="0" />
-            <Button Text="Retroceder" Command="{Binding RetrocederCommand}" Grid.Column="1" />
+        <!-- Botones de acciones principales -->
+        <Grid ColumnDefinitions="*,*" Margin="0,10,0,5">
+            <Button Text="Avanzar"
+                    Command="{Binding AvanzarCommand}"
+                    Grid.Column="0"
+                    HeightRequest="45"
+                    Margin="0,0,5,0" />
+            <Button Text="Retroceder"
+                    Command="{Binding RetrocederCommand}"
+                    Grid.Column="1"
+                    HeightRequest="45"
+                    Margin="5,0,0,0" />
         </Grid>
 
-        <Grid ColumnDefinitions="Auto , Auto">
-            <Button Text="Atacar" Command="{Binding AtacarCommand}" Grid.Column="0" />
-            <Button Text="Sanar" Command="{Binding SanarCommand}" Grid.Column="1" />
+        <Grid ColumnDefinitions="*,*" Margin="0,0,0,10">
+            <Button Text="Atacar"
+                    Command="{Binding AtacarCommand}"
+                    Grid.Column="0"
+                    HeightRequest="45"
+                    Margin="0,0,5,0" />
+            <Button Text="Sanar"
+                    Command="{Binding SanarCommand}"
+                    Grid.Column="1"
+                    HeightRequest="45"
+                    Margin="5,0,0,0" />
         </Grid>
 
+        <!-- Botones finales (solo cuando termina el combate) -->
+        <HorizontalStackLayout Spacing="10"
+                       Margin="0,10,0,0"
+                       IsVisible="{Binding CombateTerminado}">
 
-        <!-- NUEVO BOTÓN -->
-        <Button Text="Estadísticas de partida"
-        Command="{Binding VerEstadisticasCommand}"
-        IsVisible="{Binding CombateTerminado}"
-        Margin="0,20,0,0"
-        BackgroundColor="#6A4CFF"
-        TextColor="White"
-        CornerRadius="10"
-        HeightRequest="50" />
+            <!-- Botones finales centrados -->
+            <Grid IsVisible="{Binding CombateTerminado}"
+      HorizontalOptions="Center"
+      Margin="0,20,0,0"
+      ColumnDefinitions="Auto,Auto,Auto"
+      ColumnSpacing="10">
 
+                <Button Grid.Column="0"
+            Text="Estadísticas"
+            Command="{Binding VerEstadisticasCommand}"
+            WidthRequest="120"
+            HeightRequest="45"
+            BackgroundColor="#6A4CFF"
+            TextColor="White"
+            CornerRadius="10" />
 
-        <!-- NUEVO BOTÓN: Otra partida -->
-        <Button Text="Otra partida"
-        Command="{Binding OtraPartidaCommand}"
-        IsVisible="{Binding CombateTerminado}"
-        Margin="0,20,0,0"
-        BackgroundColor="#6A4CFF"
-        TextColor="White"
-        CornerRadius="10"
-        HeightRequest="50" />
+                <Button Grid.Column="1"
+            Text="Otra partida"
+            Command="{Binding OtraPartidaCommand}"
+            WidthRequest="120"
+            HeightRequest="45"
+            BackgroundColor="#444444"
+            TextColor="White"
+            CornerRadius="10" />
 
+                <Button Grid.Column="2"
+            Text="Salir"
+            Command="{Binding SalirCommand}"
+            WidthRequest="120"
+            HeightRequest="45"
+            BackgroundColor="#CC0000"
+            TextColor="White"
+            CornerRadius="10" />
+            </Grid>
+
+        </HorizontalStackLayout>
 
     </VerticalStackLayout>
 </ContentPage>

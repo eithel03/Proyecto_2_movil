@@ -13,6 +13,8 @@ namespace Proyecto_2_Movil
             Routing.RegisterRoute(nameof(SeleccionArmaPage), typeof(SeleccionArmaPage));
             Routing.RegisterRoute(nameof(CombatePage), typeof(CombatePage));
             Routing.RegisterRoute(nameof(EstadisticasPage), typeof(EstadisticasPage));
+            Routing.RegisterRoute(nameof(InicioPage), typeof(InicioPage));
+
         }
     }
 }
