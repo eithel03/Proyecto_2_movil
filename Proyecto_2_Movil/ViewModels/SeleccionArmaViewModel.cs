@@ -99,26 +99,26 @@ namespace Proyecto_2_Movil.ViewModels
 
             _jugadorActual.Arma = arma;
 
-            // Asignar probabilidades base de evasión al jugador según raza y arma seleccionada
             _jugadorActual.ProbabilidadEvasion = 0.0;
 
             if (_jugadorActual.Raza != null)
             {
                 var rName = _jugadorActual.Raza.Nombre;
                 if (rName.Contains("Elfo"))
-                    _jugadorActual.ProbabilidadEvasion += 0.15; // Elfos +15%
+                    _jugadorActual.ProbabilidadEvasion += 0.15;
                 else if (rName.Contains("Bestia"))
-                    _jugadorActual.ProbabilidadEvasion += 0.10; // Bestias +10%
+                    _jugadorActual.ProbabilidadEvasion += 0.10;
             }
 
             if (arma.Nombre.Contains("Dagas"))
                 _jugadorActual.ProbabilidadEvasion += 0.10;
 
-            // Si el arma es báculo de aire, dar una ligera evasión adicional
             if (arma.EsMagico && arma.Elemento == "Aire")
                 _jugadorActual.ProbabilidadEvasion += 0.05;
 
-            // Si el arma es rifle, no cambia evasión (pero tiene bonus a distancia ya declarado en arma)
+            // ✅ Commit 15: persistencia correcta del personaje
+            var personaje = new Personaje(_jugadorActual);
+            CharacterPreferencesService.Guardar(personaje);
 
             if (_servicio.TodosTienenArma())
             {
@@ -129,5 +129,7 @@ namespace Proyecto_2_Movil.ViewModels
                 Actualizar();
             }
         }
+
+
     }
 }
