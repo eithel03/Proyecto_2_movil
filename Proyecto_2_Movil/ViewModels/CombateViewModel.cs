@@ -47,6 +47,7 @@ namespace Proyecto_2_Movil.ViewModels
             RetrocederCommand = new Command(Retroceder);
             AtacarCommand = new Command(Atacar);
             SanarCommand = new Command(Sanar);
+            VerEstadisticasCommand = new Command(VerEstadisticas);
         }
 
         // -------- Jugadores --------
@@ -182,6 +183,8 @@ namespace Proyecto_2_Movil.ViewModels
         public ICommand RetrocederCommand { get; }
         public ICommand AtacarCommand { get; }
         public ICommand SanarCommand { get; }
+        public ICommand VerEstadisticasCommand { get; }
+
 
         // -------- Acciones --------
 
@@ -534,6 +537,16 @@ namespace Proyecto_2_Movil.ViewModels
             Jugador1.VidaActual = VidaJ1;
             Jugador2.VidaActual = VidaJ2;
         }
+        private async void VerEstadisticas()
+        {
+            // Solo tiene sentido ir a estadísticas si el combate ya terminó
+            if (!CombateTerminado)
+                return;
+
+            // Navega a la página de estadísticas (ruta registrada en AppShell)
+            await Shell.Current.GoToAsync("EstadisticasPage");
+        }
+
 
         private void NotificarCambios()
         {
@@ -550,4 +563,3 @@ namespace Proyecto_2_Movil.ViewModels
         }
     }
 }
-

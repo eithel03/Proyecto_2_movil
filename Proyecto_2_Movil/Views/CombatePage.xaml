@@ -25,7 +25,7 @@
                HorizontalOptions="Center" />
 
         <!-- BLOQUE DE JUGADORES -->
-        <Grid ColumnDefinitions="*,*" Margin="0,10">
+        <Grid ColumnDefinitions="Auto , Auto" Margin="0,10">
 
             <!-- Jugador 1 -->
             <VerticalStackLayout Grid.Column="0"
@@ -90,16 +90,27 @@
                FontSize="14" />
 
         <!-- Botones -->
-        <Grid ColumnDefinitions="*,*" Margin="0,10">
+        <Grid ColumnDefinitions="Auto , Auto" Margin="0,10">
             <Button Text="Avanzar" Command="{Binding AvanzarCommand}" Grid.Column="0" />
             <Button Text="Retroceder" Command="{Binding RetrocederCommand}" Grid.Column="1" />
         </Grid>
 
-        <Grid ColumnDefinitions="*,*">
+        <Grid ColumnDefinitions="Auto , Auto">
             <Button Text="Atacar" Command="{Binding AtacarCommand}" Grid.Column="0" />
             <Button Text="Sanar" Command="{Binding SanarCommand}" Grid.Column="1" />
         </Grid>
 
+
+        <!-- NUEVO BOTÓN -->
+        <Button Text="Estadísticas de partida"
+        Command="{Binding VerEstadisticasCommand}"
+        IsVisible="{Binding CombateTerminado}"
+        Margin="0,20,0,0"
+        BackgroundColor="#6A4CFF"
+        TextColor="White"
+        CornerRadius="10"
+        HeightRequest="50" />
+
+
     </VerticalStackLayout>
 </ContentPage>
-
